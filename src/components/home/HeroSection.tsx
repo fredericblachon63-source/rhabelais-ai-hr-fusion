@@ -2,10 +2,8 @@ import { Link } from "react-router-dom";
 import { ArrowRight, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import personnage from "@/assets/personnage.png";
-
 const HeroSection = () => {
-  return (
-    <section className="relative min-h-[90vh] flex items-center overflow-hidden">
+  return <section className="relative min-h-[90vh] flex items-center overflow-hidden">
       {/* Background Pattern */}
       <div className="absolute inset-0 bg-gradient-to-br from-background via-background to-rhabelais-cream-dark" />
       <div className="absolute inset-0 opacity-30">
@@ -63,17 +61,11 @@ const HeroSection = () => {
           <div className="relative flex justify-center lg:justify-end">
             <div className="relative animate-float">
               <div className="absolute inset-0 bg-gradient-to-br from-secondary/20 to-accent/20 rounded-full blur-3xl scale-110" />
-              <img
-                src={personnage}
-                alt="Consultant RH Rhabelais"
-                className="relative w-80 lg:w-[450px] h-auto drop-shadow-2xl"
-              />
+              <img alt="Consultant RH Rhabelais" className="relative w-80 lg:w-[450px] h-auto drop-shadow-2xl" src="/lovable-uploads/92d82c0a-3a6e-4d6b-9e86-7611f380b450.png" />
             </div>
           </div>
         </div>
       </div>
-    </section>
-  );
+    </section>;
 };
-
 export default HeroSection;
