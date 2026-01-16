@@ -6,6 +6,7 @@ import logo from "@/assets/logo-rhabelais.png";
 
 const navLinks = [
   { href: "/", label: "Accueil" },
+  { href: "/a-propos", label: "À propos" },
   { href: "/expertises", label: "Expertises" },
   { href: "/ia-nocode", label: "IA & No-Code" },
   { href: "/automatisations", label: "Automatisations" },
