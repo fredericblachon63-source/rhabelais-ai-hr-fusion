@@ -1,51 +1,38 @@
 import Layout from "@/components/layout/Layout";
 import { Award, Target, Heart, Lightbulb, Users } from "lucide-react";
 import avatarRH from "@/assets/avatar-rh.png";
-
 const APropos = () => {
-  const valeurs = [
-    {
-      icon: Heart,
-      title: "Humanisme",
-      description: "Placer l'humain au cœur de chaque transformation",
-    },
-    {
-      icon: Target,
-      title: "Excellence",
-      description: "Viser l'excellence dans chaque accompagnement",
-    },
-    {
-      icon: Lightbulb,
-      title: "Innovation",
-      description: "Conjuguer tradition RH et innovation technologique",
-    },
-    {
-      icon: Users,
-      title: "Proximité",
-      description: "Un accompagnement personnalisé et sur-mesure",
-    },
-  ];
-
-  const parcours = [
-    {
-      periode: "15+ ans",
-      titre: "Expérience RH",
-      description: "Dans des environnements variés : PME, ETI, grands groupes",
-    },
-    {
-      periode: "500+",
-      titre: "Collaborateurs accompagnés",
-      description: "Dans leurs transformations professionnelles",
-    },
-    {
-      periode: "50+",
-      titre: "Projets menés",
-      description: "Relations sociales, restructurations, transformations digitales",
-    },
-  ];
-
-  return (
-    <Layout>
+  const valeurs = [{
+    icon: Heart,
+    title: "Humanisme",
+    description: "Placer l'humain au cœur de chaque transformation"
+  }, {
+    icon: Target,
+    title: "Excellence",
+    description: "Viser l'excellence dans chaque accompagnement"
+  }, {
+    icon: Lightbulb,
+    title: "Innovation",
+    description: "Conjuguer tradition RH et innovation technologique"
+  }, {
+    icon: Users,
+    title: "Proximité",
+    description: "Un accompagnement personnalisé et sur-mesure"
+  }];
+  const parcours = [{
+    periode: "15+ ans",
+    titre: "Expérience RH",
+    description: "Dans des environnements variés : PME, ETI, grands groupes"
+  }, {
+    periode: "500+",
+    titre: "Collaborateurs accompagnés",
+    description: "Dans leurs transformations professionnelles"
+  }, {
+    periode: "50+",
+    titre: "Projets menés",
+    description: "Relations sociales, restructurations, transformations digitales"
+  }];
+  return <Layout>
       {/* Hero Section */}
       <section className="pt-32 pb-20 bg-gradient-to-b from-primary/5 to-background">
         <div className="container mx-auto px-4">
@@ -58,9 +45,7 @@ const APropos = () => {
                 Entre tradition RH et{" "}
                 <span className="text-secondary">innovation humaine</span>
               </h1>
-              <p className="text-lg text-muted-foreground mb-6 leading-relaxed">
-                Passionné par les ressources humaines depuis plus de 15 ans, j'ai fondé 
-                <strong className="text-foreground"> Rhabelais</strong> avec une conviction : 
+              <p className="text-lg text-muted-foreground mb-6 leading-relaxed">Je me présente, je suis Frédéric Blachon. Passionné par les ressources humaines depuis plus de 15 ans, j'ai fondé Rhabelais avec une conviction : l'innovation technologique doit servir l'humain, jamais l'inverse.<strong className="text-foreground"> Rhabelais</strong> avec une conviction : 
                 l'innovation technologique doit servir l'humain, jamais l'inverse.
               </p>
               <p className="text-lg text-muted-foreground leading-relaxed">
@@ -72,11 +57,7 @@ const APropos = () => {
             <div className="order-1 lg:order-2 flex justify-center">
               <div className="relative">
                 <div className="absolute inset-0 bg-gradient-to-br from-secondary/20 to-accent/20 rounded-3xl blur-3xl" />
-                <img
-                  src={avatarRH}
-                  alt="Consultant RH Rhabelais"
-                  className="relative z-10 w-80 h-auto rounded-3xl shadow-elegant"
-                />
+                <img src={avatarRH} alt="Consultant RH Rhabelais" className="relative z-10 w-80 h-auto rounded-3xl shadow-elegant" />
               </div>
             </div>
           </div>
@@ -96,11 +77,7 @@ const APropos = () => {
           </div>
 
           <div className="grid md:grid-cols-3 gap-8">
-            {parcours.map((item, index) => (
-              <div
-                key={index}
-                className="bg-card p-8 rounded-2xl border border-border text-center hover:shadow-lg transition-shadow"
-              >
+            {parcours.map((item, index) => <div key={index} className="bg-card p-8 rounded-2xl border border-border text-center hover:shadow-lg transition-shadow">
                 <div className="text-5xl font-display font-bold text-secondary mb-4">
                   {item.periode}
                 </div>
@@ -108,8 +85,7 @@ const APropos = () => {
                   {item.titre}
                 </h3>
                 <p className="text-muted-foreground">{item.description}</p>
-              </div>
-            ))}
+              </div>)}
           </div>
         </div>
       </section>
@@ -143,16 +119,11 @@ const APropos = () => {
               </div>
             </div>
             <div className="grid grid-cols-2 gap-4">
-              {valeurs.map((valeur, index) => (
-                <div
-                  key={index}
-                  className="bg-card p-6 rounded-xl border border-border hover:border-secondary/50 transition-colors"
-                >
+              {valeurs.map((valeur, index) => <div key={index} className="bg-card p-6 rounded-xl border border-border hover:border-secondary/50 transition-colors">
                   <valeur.icon className="w-8 h-8 text-secondary mb-4" />
                   <h3 className="font-semibold text-foreground mb-2">{valeur.title}</h3>
                   <p className="text-sm text-muted-foreground">{valeur.description}</p>
-                </div>
-              ))}
+                </div>)}
             </div>
           </div>
         </div>
@@ -206,16 +177,11 @@ const APropos = () => {
             Discutons de vos enjeux RH et voyons ensemble comment je peux vous accompagner 
             dans votre transformation.
           </p>
-          <a
-            href="/contact"
-            className="inline-flex items-center justify-center px-8 py-4 bg-secondary text-secondary-foreground font-semibold rounded-lg hover:bg-secondary/90 transition-colors"
-          >
+          <a href="/contact" className="inline-flex items-center justify-center px-8 py-4 bg-secondary text-secondary-foreground font-semibold rounded-lg hover:bg-secondary/90 transition-colors">
             Prendre contact
           </a>
         </div>
       </section>
-    </Layout>
-  );
+    </Layout>;
 };
-
 export default APropos;
