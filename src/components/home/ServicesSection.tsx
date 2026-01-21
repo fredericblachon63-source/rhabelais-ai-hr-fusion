@@ -8,7 +8,7 @@ import iconIa from "@/assets/icon-ia.png";
 const services = [{
   icon: iconAdp,
   title: "Administration du Personnel",
-  description: "Gestion de la paie, contrats, dossiers individuels et conformité légale pour une gestion RH irréprochable.",
+  description: "Gestion des contrats, dossiers individuels et conformité légale pour une gestion RH irréprochable.",
   link: "/expertises"
 }, {
   icon: iconDialogue,

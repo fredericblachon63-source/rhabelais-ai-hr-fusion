@@ -60,7 +60,12 @@ const Expertises = () => {
                     {expertise.description}
                   </p>
                   <ul className="space-y-3">
-                    {expertise.details.map((detail, i) => {})}
+                    {expertise.details.map((detail, i) => (
+                      <li key={i} className="flex items-start gap-2">
+                        <span className="text-secondary mt-1">✓</span>
+                        <span>{detail}</span>
+                      </li>
+                    ))}
                   </ul>
                 </div>
                 <div className={`${index % 2 === 1 ? "lg:order-1" : ""}`}>
