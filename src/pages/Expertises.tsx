@@ -6,61 +6,29 @@ import iconAdp from "@/assets/icon-adp.png";
 import iconDialogue from "@/assets/icon-dialogue.png";
 import iconGepp from "@/assets/icon-gepp.png";
 import iconRse from "@/assets/icon-rse.png";
-
-const expertises = [
-  {
-    icon: iconAdp,
-    title: "Administration du Personnel (ADP)",
-    description: "Pilotage complet de la gestion administrative des collaborateurs.",
-    details: [
-      "Gestion de la paie et des déclarations sociales",
-      "Rédaction et suivi des contrats de travail",
-      "Gestion des dossiers individuels",
-      "Conformité légale et réglementaire",
-      "Optimisation des processus administratifs",
-    ],
-  },
-  {
-    icon: iconDialogue,
-    title: "Relations Sociales",
-    description: "Construction et maintien d'un dialogue social constructif.",
-    details: [
-      "Animation des instances représentatives (CSE)",
-      "Négociations collectives et accords d'entreprise",
-      "Prévention et gestion des conflits",
-      "Promotion du bien-être au travail",
-      "Accompagnement du changement organisationnel",
-    ],
-  },
-  {
-    icon: iconGepp,
-    title: "GEPP (Gestion des Emplois et Parcours Professionnels)",
-    description: "Anticipation des besoins en compétences et développement des talents.",
-    details: [
-      "Cartographie des compétences",
-      "Plans de développement individuels",
-      "Gestion prévisionnelle des effectifs",
-      "Accompagnement des mobilités internes",
-      "Identification et valorisation des talents",
-    ],
-  },
-  {
-    icon: iconRse,
-    title: "RSE (Responsabilité Sociale et Environnementale)",
-    description: "Intégration des enjeux sociaux et environnementaux dans la stratégie RH.",
-    details: [
-      "Politique diversité et inclusion",
-      "Accompagnement du handicap en entreprise",
-      "Démarches de développement durable",
-      "Engagement sociétal des collaborateurs",
-      "Indicateurs et reporting RSE",
-    ],
-  },
-];
-
+const expertises = [{
+  icon: iconAdp,
+  title: "Administration du Personnel (ADP)",
+  description: "Pilotage complet de la gestion administrative des collaborateurs.",
+  details: ["Gestion de la paie et des déclarations sociales", "Rédaction et suivi des contrats de travail", "Gestion des dossiers individuels", "Conformité légale et réglementaire", "Optimisation des processus administratifs"]
+}, {
+  icon: iconDialogue,
+  title: "Relations Sociales",
+  description: "Construction et maintien d'un dialogue social constructif.",
+  details: ["Animation des instances représentatives (CSE)", "Négociations collectives et accords d'entreprise", "Prévention et gestion des conflits", "Promotion du bien-être au travail", "Accompagnement du changement organisationnel"]
+}, {
+  icon: iconGepp,
+  title: "GEPP (Gestion des Emplois et Parcours Professionnels)",
+  description: "Anticipation des besoins en compétences et développement des talents.",
+  details: ["Cartographie des compétences", "Plans de développement individuels", "Gestion prévisionnelle des effectifs", "Accompagnement des mobilités internes", "Identification et valorisation des talents"]
+}, {
+  icon: iconRse,
+  title: "RSE (Responsabilité Sociale et Environnementale)",
+  description: "Intégration des enjeux sociaux et environnementaux dans la stratégie RH.",
+  details: ["Politique diversité et inclusion", "Accompagnement du handicap en entreprise", "Démarches de développement durable", "Engagement sociétal des collaborateurs", "Indicateurs et reporting RSE"]
+}];
 const Expertises = () => {
-  return (
-    <Layout>
+  return <Layout>
       {/* Hero */}
       <section className="py-20 bg-gradient-to-b from-background to-rhabelais-cream-dark">
         <div className="container mx-auto px-4">
@@ -80,20 +48,10 @@ const Expertises = () => {
       <section className="py-16 bg-rhabelais-cream-dark">
         <div className="container mx-auto px-4">
           <div className="space-y-16">
-            {expertises.map((expertise, index) => (
-              <div
-                key={index}
-                className={`grid lg:grid-cols-2 gap-12 items-center ${
-                  index % 2 === 1 ? "lg:flex-row-reverse" : ""
-                }`}
-              >
+            {expertises.map((expertise, index) => <div key={index} className={`grid lg:grid-cols-2 gap-12 items-center ${index % 2 === 1 ? "lg:flex-row-reverse" : ""}`}>
                 <div className={index % 2 === 1 ? "lg:order-2" : ""}>
                   <div className="flex items-center gap-4 mb-4">
-                    <img
-                      src={expertise.icon}
-                      alt={expertise.title}
-                      className="w-20 h-20 object-contain"
-                    />
+                    <img src={expertise.icon} alt={expertise.title} className="w-20 h-20 object-contain" />
                     <h2 className="text-2xl md:text-3xl font-serif font-bold">
                       {expertise.title}
                     </h2>
@@ -102,25 +60,15 @@ const Expertises = () => {
                     {expertise.description}
                   </p>
                   <ul className="space-y-3">
-                    {expertise.details.map((detail, i) => (
-                      <li key={i} className="flex items-start gap-3">
-                        <span className="w-2 h-2 rounded-full bg-secondary mt-2 flex-shrink-0" />
-                        <span className="text-foreground/80">{detail}</span>
-                      </li>
-                    ))}
+                    {expertise.details.map((detail, i) => {})}
                   </ul>
                 </div>
                 <div className={`${index % 2 === 1 ? "lg:order-1" : ""}`}>
-                  <div className="card-elevated rounded-3xl p-8 h-full flex items-center justify-center min-h-[300px]">
-                    <img
-                      src={expertise.icon}
-                      alt={expertise.title}
-                      className="w-48 h-48 object-contain opacity-80"
-                    />
+                  <div className="card-elevated rounded-3xl p-8 h-full flex items-center justify-center min-h-[300px] px-px py-px">
+                    <img src={expertise.icon} alt={expertise.title} className="w-48 h-48 object-contain border-0 opacity-100" />
                   </div>
                 </div>
-              </div>
-            ))}
+              </div>)}
           </div>
         </div>
       </section>
@@ -142,8 +90,6 @@ const Expertises = () => {
           </Button>
         </div>
       </section>
-    </Layout>
-  );
+    </Layout>;
 };
-
 export default Expertises;
