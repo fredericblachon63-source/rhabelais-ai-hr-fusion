@@ -1,6 +1,6 @@
 import Layout from "@/components/layout/Layout";
 import { Link } from "react-router-dom";
-import { ArrowRight, Database, Workflow, Layers, Calendar, Users, FileText, BarChart3, Bell } from "lucide-react";
+import { ArrowRight, Database, Workflow, Layers, Calendar, Users, FileText, BarChart3, Bell, Shield } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const automationExamples = [
@@ -83,11 +83,29 @@ const Automatisations = () => {
             <h1 className="text-4xl md:text-5xl font-serif font-bold mb-6">
               <span className="gradient-text">Automatisations</span> & Outils RH
             </h1>
-            <p className="text-muted-foreground text-lg">
+            <p className="text-muted-foreground text-lg mb-8">
               Découvrez des exemples concrets d'automatisations RH réalisées 
               avec Notion, Airtable et Make. Des solutions pratiques et 
               immédiatement opérationnelles.
             </p>
+            
+            {/* Engagement éthique */}
+            <div className="bg-primary/5 border border-primary/20 rounded-xl p-6 text-left">
+              <div className="flex items-start gap-4">
+                <div className="w-12 h-12 rounded-full gradient-bg-primary flex items-center justify-center flex-shrink-0">
+                  <Shield className="w-6 h-6 text-white" />
+                </div>
+                <div>
+                  <h3 className="font-serif font-semibold text-lg mb-2">Engagement éthique et responsable</h3>
+                  <p className="text-muted-foreground text-sm">
+                    <strong>Rhabelais</strong> s'engage à proposer des automatisations conformes à la législation en vigueur 
+                    (<strong>RGPD</strong>, <strong>IA Act</strong>). Par exemple, aucune automatisation de tri de CV par l'IA 
+                    ne sera proposée afin de garantir un processus de recrutement équitable et non-discriminatoire. 
+                    Notre approche privilégie l'humain et la responsabilité dans l'usage des technologies.
+                  </p>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>

@@ -60,12 +60,17 @@ const Expertises = () => {
                     {expertise.description}
                   </p>
                   <ul className="space-y-3">
-                    {expertise.details.map((detail, i) => {})}
+                    {expertise.details.map((detail, i) => (
+                      <li key={i} className="flex items-start gap-2 text-muted-foreground">
+                        <span className="w-1.5 h-1.5 rounded-full bg-secondary mt-2 flex-shrink-0" />
+                        {detail}
+                      </li>
+                    ))}
                   </ul>
                 </div>
                 <div className={`${index % 2 === 1 ? "lg:order-1" : ""}`}>
-                  <div className="card-elevated rounded-3xl p-8 h-full flex items-center justify-center min-h-[300px] px-px py-px">
-                    <img src={expertise.icon} alt={expertise.title} className="w-48 h-48 object-contain border-0 opacity-100" />
+                  <div className="card-elevated rounded-3xl p-4 h-full flex items-center justify-center min-h-[300px]">
+                    <img src={expertise.icon} alt={expertise.title} className="w-full h-full max-w-[280px] max-h-[280px] object-contain" />
                   </div>
                 </div>
               </div>)}

@@ -29,22 +29,22 @@ const aiImpacts = [
 
 const formations = [
   {
-    title: "Introduction à l'IA pour les RH",
+    title: "Introduction à l'IA & Législation",
     duration: "1 jour",
     level: "Débutant",
-    topics: ["Comprendre l'IA et ses applications", "Démystifier les outils", "Identifier les opportunités"],
+    topics: ["Comprendre l'IA et ses fondamentaux", "IA Act : le cadre réglementaire européen", "RGPD et protection des données", "Enjeux éthiques de l'IA en RH"],
   },
   {
-    title: "IA Générative & Prompting",
+    title: "Outils No-Code pour les RH",
     duration: "1 jour",
     level: "Intermédiaire",
-    topics: ["Maîtriser ChatGPT et Claude", "Rédiger des prompts efficaces", "Cas pratiques RH"],
+    topics: ["Découverte de Notion, Airtable, Make", "Automatisation sans coder", "Cas pratiques d'usage RH", "Construire son premier workflow"],
   },
   {
-    title: "Transformation RH par l'IA",
-    duration: "2 jours",
-    level: "Avancé",
-    topics: ["Stratégie d'adoption", "Accompagnement du changement", "Éthique et RGPD"],
+    title: "Accompagnement Personnalisé",
+    duration: "Sur mesure",
+    level: "Tous niveaux",
+    topics: ["Audit de vos besoins spécifiques", "Solutions adaptées à votre contexte", "Mise en place et formation", "Suivi et optimisation continue"],
   },
 ];
 

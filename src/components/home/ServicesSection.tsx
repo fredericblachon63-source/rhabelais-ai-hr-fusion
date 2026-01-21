@@ -46,14 +46,14 @@ const ServicesSection = () => {
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           {services.map((service, index) => <Link key={index} to={service.link} className="group card-elevated rounded-2xl p-6 hover:shadow-elevated transition-all duration-300 hover:-translate-y-1">
-              <div className="mb-4 mx-0">
-                <img src={service.icon} alt={service.title} className="w-16 h-16 object-contain" />
+              <div className="mb-4 flex justify-center">
+                <img src={service.icon} alt={service.title} className="w-24 h-24 object-contain" />
               </div>
-              <h3 className="font-serif text-xl font-semibold mb-2 group-hover:text-secondary transition-colors">
+              <h3 className="font-serif text-xl font-semibold mb-2 group-hover:text-secondary transition-colors text-center">
                 {service.title}
               </h3>
-              <p className="text-muted-foreground mb-4">{service.description}</p>
-              <span className="inline-flex items-center gap-2 text-secondary font-medium text-sm group-hover:gap-3 transition-all">
+              <p className="text-muted-foreground mb-4 text-center">{service.description}</p>
+              <span className="inline-flex items-center gap-2 text-secondary font-medium text-sm group-hover:gap-3 transition-all justify-center w-full">
                 En savoir plus
                 <ArrowRight size={16} />
               </span>
