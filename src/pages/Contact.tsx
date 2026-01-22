@@ -156,7 +156,7 @@ const Contact = () => {
                 </a>
 
                 <a
-                  href="https://linkedin.com"
+                  href="https://www.linkedin.com/in/hugo-music-24606b25b/"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center gap-4 p-4 card-elevated rounded-xl hover:shadow-elevated transition-all"

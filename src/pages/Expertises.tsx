@@ -10,7 +10,7 @@ const expertises = [{
   icon: iconAdp,
   title: "Administration du Personnel (ADP)",
   description: "Pilotage complet de la gestion administrative des collaborateurs.",
-  details: ["Gestion de la paie et des déclarations sociales", "Rédaction et suivi des contrats de travail", "Gestion des dossiers individuels", "Conformité légale et réglementaire", "Optimisation des processus administratifs"]
+  details: ["Rédaction et suivi des contrats de travail", "Gestion des dossiers individuels", "Conformité légale et réglementaire", "Déclarations sociales et obligations légales", "Optimisation des processus administratifs"]
 }, {
   icon: iconDialogue,
   title: "Relations Sociales",
