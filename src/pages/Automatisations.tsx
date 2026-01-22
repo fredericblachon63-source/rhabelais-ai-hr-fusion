@@ -63,7 +63,7 @@ const automationExamples = [
       {
         icon: Layers,
         title: "Synchronisation multi-outils",
-        description: "Connexion entre vos outils RH (SIRH, paie, formation) pour une donnée unifiée et à jour.",
+        description: "Connexion entre vos outils RH (SIRH, formation) pour une donnée unifiée et à jour.",
       },
     ],
   },
