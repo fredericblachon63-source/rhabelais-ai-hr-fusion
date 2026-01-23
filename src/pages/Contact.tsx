@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
+import { useTurnstile } from "@/hooks/useTurnstile";
 import { z } from "zod";
 
 const contactSchema = z.object({
@@ -20,6 +21,7 @@ type ContactFormData = z.infer<typeof contactSchema>;
 
 const Contact = () => {
   const { toast } = useToast();
+  const { containerRef, token: turnstileToken, isValid: isCaptchaValid, reset: resetCaptcha, error: captchaError } = useTurnstile();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [formData, setFormData] = useState<ContactFormData>({
@@ -46,12 +48,23 @@ const Contact = () => {
     setErrors({});
 
     try {
+      // Check CAPTCHA first
+      if (!isCaptchaValid || !turnstileToken) {
+        toast({
+          title: "Vérification requise",
+          description: "Veuillez compléter la vérification CAPTCHA.",
+          variant: "destructive",
+        });
+        setIsSubmitting(false);
+        return;
+      }
+      
       // Client-side validation first
       const validatedData = contactSchema.parse(formData);
       
-      // Send to backend Edge Function for server-side validation and email sending
+      // Send to backend Edge Function with CAPTCHA token
       const { data, error } = await supabase.functions.invoke("contact-form", {
-        body: validatedData,
+        body: { ...validatedData, turnstileToken },
       });
       
       if (error) {
@@ -63,6 +76,7 @@ const Contact = () => {
       }
       
       setIsSubmitted(true);
+      resetCaptcha();
       toast({
         title: "Message envoyé !",
         description: "Je vous répondrai dans les plus brefs délais.",
@@ -107,6 +121,7 @@ const Contact = () => {
                 onClick={() => {
                   setIsSubmitted(false);
                   setFormData({ name: "", email: "", company: "", subject: "", message: "" });
+                  resetCaptcha();
                 }}
                 variant="outline"
                 className="border-secondary text-secondary hover:bg-secondary hover:text-secondary-foreground"
@@ -268,9 +283,15 @@ const Contact = () => {
                   {errors.message && <p className="text-destructive text-xs">{errors.message}</p>}
                 </div>
 
+                {/* Turnstile CAPTCHA Widget */}
+                <div className="space-y-2">
+                  <div ref={containerRef} className="flex justify-center" />
+                  {captchaError && <p className="text-destructive text-xs text-center">{captchaError}</p>}
+                </div>
+
                 <Button
                   type="submit"
-                  disabled={isSubmitting}
+                  disabled={isSubmitting || !isCaptchaValid}
                   className="w-full gradient-bg-primary border-0 text-primary-foreground hover:opacity-90"
                   size="lg"
                 >
