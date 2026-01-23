@@ -42,17 +42,58 @@ function checkRateLimit(clientIp: string): { allowed: boolean; remaining: number
   return { allowed: true, remaining: RATE_LIMIT - recentRequests.length };
 }
 
+// Verify Cloudflare Turnstile token
+async function verifyTurnstileToken(token: string, clientIp: string): Promise<{ success: boolean; error?: string }> {
+  const secretKey = Deno.env.get("TURNSTILE_SECRET_KEY");
+  
+  if (!secretKey) {
+    console.error("TURNSTILE_SECRET_KEY is not configured");
+    return { success: false, error: "CAPTCHA configuration error" };
+  }
+  
+  try {
+    const response = await fetch("https://challenges.cloudflare.com/turnstile/v0/siteverify", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+      body: new URLSearchParams({
+        secret: secretKey,
+        response: token,
+        remoteip: clientIp,
+      }),
+    });
+    
+    const data = await response.json();
+    
+    if (!data.success) {
+      console.error("Turnstile verification failed:", data["error-codes"]);
+      return { success: false, error: "Vérification CAPTCHA échouée" };
+    }
+    
+    return { success: true };
+  } catch (error) {
+    console.error("Turnstile verification error:", error);
+    return { success: false, error: "Erreur lors de la vérification CAPTCHA" };
+  }
+}
+
 // Simple validation function
 function validateContactForm(data: unknown): { 
   success: boolean; 
-  data?: { name: string; email: string; company: string; subject: string; message: string }; 
+  data?: { name: string; email: string; company: string; subject: string; message: string; turnstileToken: string }; 
   error?: string 
 } {
   if (!data || typeof data !== 'object') {
     return { success: false, error: "Données invalides" };
   }
   
-  const { name, email, company, subject, message } = data as Record<string, unknown>;
+  const { name, email, company, subject, message, turnstileToken } = data as Record<string, unknown>;
+  
+  // Validate Turnstile token
+  if (typeof turnstileToken !== 'string' || turnstileToken.trim().length === 0) {
+    return { success: false, error: "Veuillez compléter la vérification CAPTCHA" };
+  }
   
   // Validate name
   if (typeof name !== 'string' || name.trim().length < 2 || name.trim().length > 100) {
@@ -89,6 +130,7 @@ function validateContactForm(data: unknown): {
       company: companyValue,
       subject: subject.trim(),
       message: message.trim(),
+      turnstileToken: turnstileToken.trim(),
     }
   };
 }
@@ -168,6 +210,19 @@ const handler = async (req: Request): Promise<Response> => {
     }
     
     const validatedData = validationResult.data;
+    
+    // Verify Turnstile CAPTCHA token
+    const turnstileResult = await verifyTurnstileToken(validatedData.turnstileToken, clientIp);
+    
+    if (!turnstileResult.success) {
+      return new Response(
+        JSON.stringify({ success: false, error: turnstileResult.error }),
+        {
+          status: 400,
+          headers: { "Content-Type": "application/json", ...corsHeaders },
+        }
+      );
+    }
     const apiKey = Deno.env.get("RESEND_API_KEY");
     
     if (!apiKey) {
