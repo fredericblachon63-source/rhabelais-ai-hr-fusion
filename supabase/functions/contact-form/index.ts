@@ -6,6 +6,42 @@ const corsHeaders = {
     "authorization, x-client-info, apikey, content-type",
 };
 
+// Rate limiting configuration
+const RATE_LIMIT = 3; // Max requests per IP
+const RATE_WINDOW = 3600000; // 1 hour in milliseconds
+const rateLimitMap = new Map<string, number[]>();
+
+// Clean up old rate limit entries periodically
+function cleanupRateLimitMap() {
+  const now = Date.now();
+  for (const [ip, timestamps] of rateLimitMap.entries()) {
+    const validTimestamps = timestamps.filter(time => now - time < RATE_WINDOW);
+    if (validTimestamps.length === 0) {
+      rateLimitMap.delete(ip);
+    } else {
+      rateLimitMap.set(ip, validTimestamps);
+    }
+  }
+}
+
+// Check rate limit for an IP
+function checkRateLimit(clientIp: string): { allowed: boolean; remaining: number } {
+  cleanupRateLimitMap();
+  
+  const now = Date.now();
+  const requests = rateLimitMap.get(clientIp) || [];
+  const recentRequests = requests.filter(time => now - time < RATE_WINDOW);
+  
+  if (recentRequests.length >= RATE_LIMIT) {
+    return { allowed: false, remaining: 0 };
+  }
+  
+  recentRequests.push(now);
+  rateLimitMap.set(clientIp, recentRequests);
+  
+  return { allowed: true, remaining: RATE_LIMIT - recentRequests.length };
+}
+
 // Simple validation function
 function validateContactForm(data: unknown): { 
   success: boolean; 
@@ -75,7 +111,10 @@ async function sendEmail(apiKey: string, options: {
   
   if (!response.ok) {
     const errorData = await response.text();
-    throw new Error(`Failed to send email: ${errorData}`);
+    // Log detailed error server-side only for debugging
+    console.error("Resend API error:", errorData);
+    // Throw generic error - don't expose API details to client
+    throw new Error("EMAIL_SEND_FAILED");
   }
   
   return response.json();
@@ -88,6 +127,31 @@ const handler = async (req: Request): Promise<Response> => {
   }
 
   try {
+    // Rate limiting check
+    const clientIp = req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || 
+                     req.headers.get('x-real-ip') || 
+                     'unknown';
+    
+    const rateLimitResult = checkRateLimit(clientIp);
+    
+    if (!rateLimitResult.allowed) {
+      console.log(`Rate limit exceeded for IP: ${clientIp}`);
+      return new Response(
+        JSON.stringify({ 
+          success: false, 
+          error: "Trop de requêtes. Veuillez réessayer dans une heure." 
+        }),
+        {
+          status: 429,
+          headers: { 
+            "Content-Type": "application/json", 
+            "Retry-After": "3600",
+            ...corsHeaders 
+          },
+        }
+      );
+    }
+
     const body = await req.json();
     
     // Server-side validation
@@ -109,7 +173,7 @@ const handler = async (req: Request): Promise<Response> => {
     if (!apiKey) {
       console.error("RESEND_API_KEY is not configured");
       return new Response(
-        JSON.stringify({ success: false, error: "Configuration email manquante" }),
+        JSON.stringify({ success: false, error: "Une erreur de configuration est survenue. Veuillez réessayer plus tard." }),
         {
           status: 500,
           headers: { "Content-Type": "application/json", ...corsHeaders },
@@ -159,11 +223,15 @@ const handler = async (req: Request): Promise<Response> => {
       }
     );
   } catch (error: unknown) {
+    // Log detailed error server-side only
     console.error("Error in contact-form function:", error);
     
-    const errorMessage = error instanceof Error ? error.message : "Une erreur est survenue";
+    // Return generic error message to client - never expose internal details
     return new Response(
-      JSON.stringify({ success: false, error: errorMessage }),
+      JSON.stringify({ 
+        success: false, 
+        error: "Une erreur est survenue lors de l'envoi du message. Veuillez réessayer." 
+      }),
       {
         status: 500,
         headers: { "Content-Type": "application/json", ...corsHeaders },
