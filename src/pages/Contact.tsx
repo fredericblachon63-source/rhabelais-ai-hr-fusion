@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
+import { supabase } from "@/integrations/supabase/client";
 import { z } from "zod";
 
 const contactSchema = z.object({
@@ -45,12 +46,21 @@ const Contact = () => {
     setErrors({});
 
     try {
+      // Client-side validation first
       const validatedData = contactSchema.parse(formData);
       
-      // Simulate form submission (in real app, send to backend)
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+      // Send to backend Edge Function for server-side validation and email sending
+      const { data, error } = await supabase.functions.invoke("contact-form", {
+        body: validatedData,
+      });
       
-      console.log("Form submitted:", validatedData);
+      if (error) {
+        throw new Error(error.message || "Erreur lors de l'envoi du message");
+      }
+      
+      if (!data?.success) {
+        throw new Error(data?.error || "Erreur lors de l'envoi du message");
+      }
       
       setIsSubmitted(true);
       toast({
@@ -69,7 +79,7 @@ const Contact = () => {
       } else {
         toast({
           title: "Erreur",
-          description: "Une erreur est survenue. Veuillez réessayer.",
+          description: error instanceof Error ? error.message : "Une erreur est survenue. Veuillez réessayer.",
           variant: "destructive",
         });
       }
