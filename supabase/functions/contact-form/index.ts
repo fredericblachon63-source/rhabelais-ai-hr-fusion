@@ -1,4 +1,5 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -223,6 +224,35 @@ const handler = async (req: Request): Promise<Response> => {
         }
       );
     }
+    // Store message in database
+    const supabaseUrl = Deno.env.get("SUPABASE_URL");
+    const supabaseServiceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
+    
+    if (supabaseUrl && supabaseServiceKey) {
+      try {
+        const supabase = createClient(supabaseUrl, supabaseServiceKey);
+        const { error: dbError } = await supabase
+          .from("contact_messages")
+          .insert({
+            name: validatedData.name,
+            email: validatedData.email,
+            company: validatedData.company || null,
+            subject: validatedData.subject,
+            message: validatedData.message,
+          });
+        
+        if (dbError) {
+          console.error("Database insert error:", dbError);
+          // Continue with email sending even if DB insert fails
+        } else {
+          console.log("Message stored in database successfully");
+        }
+      } catch (dbErr) {
+        console.error("Database connection error:", dbErr);
+        // Continue with email sending even if DB fails
+      }
+    }
+
     const apiKey = Deno.env.get("RESEND_API_KEY");
     
     if (!apiKey) {
