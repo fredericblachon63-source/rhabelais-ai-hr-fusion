@@ -20,7 +20,7 @@ interface TurnstileOptions {
   language?: string;
 }
 
-const TURNSTILE_SITE_KEY = "0x4AAAAAABfV5pqGGm5zVHwV";
+const TURNSTILE_SITE_KEY = "0x4AAAAAACOavdHstqsy3_ht";
 
 export function useTurnstile() {
   const containerRef = useRef<HTMLDivElement>(null);
