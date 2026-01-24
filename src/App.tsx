@@ -9,6 +9,7 @@ import Expertises from "./pages/Expertises";
 import IANoCode from "./pages/IANoCode";
 import Automatisations from "./pages/Automatisations";
 import Contact from "./pages/Contact";
+import Admin from "./pages/Admin";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -26,6 +27,7 @@ const App = () => (
           <Route path="/ia-nocode" element={<IANoCode />} />
           <Route path="/automatisations" element={<Automatisations />} />
           <Route path="/contact" element={<Contact />} />
+          <Route path="/admin" element={<Admin />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
