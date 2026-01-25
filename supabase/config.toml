@@ -2,3 +2,12 @@ project_id = "lejhjvkhwuhclkhgxvfj"
 
 [functions.contact-form]
 verify_jwt = false
+
+[functions.admin-messages]
+verify_jwt = false
+
+[functions.admin-message-action]
+verify_jwt = false
+
+[functions.setup-admin]
+verify_jwt = false
