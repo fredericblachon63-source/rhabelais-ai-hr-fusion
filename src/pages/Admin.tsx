@@ -1,10 +1,11 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
+import { useAdminAuth } from "@/hooks/useAdminAuth";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   Mail,
   MailOpen,
@@ -16,10 +17,12 @@ import {
   ArrowLeft,
   Inbox,
   ArchiveX,
+  LogOut,
+  Loader2,
 } from "lucide-react";
 import { format } from "date-fns";
 import { fr } from "date-fns/locale";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 
 interface ContactMessage {
   id: string;
@@ -34,22 +37,17 @@ interface ContactMessage {
 }
 
 export default function Admin() {
+  const { user, isAdmin, loading: authLoading, signOut } = useAdminAuth();
+  const { toast } = useToast();
   const [messages, setMessages] = useState<ContactMessage[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedMessage, setSelectedMessage] = useState<ContactMessage | null>(null);
   const [activeTab, setActiveTab] = useState("active");
   const [total, setTotal] = useState(0);
-  const { toast } = useToast();
 
-  const fetchMessages = async (status: string = "active") => {
+  const fetchMessages = useCallback(async (status: string = "active") => {
     setLoading(true);
     try {
-      const { data, error } = await supabase.functions.invoke("admin-messages", {
-        body: null,
-        method: "GET",
-      });
-
-      // Use query params via URL
       const response = await fetch(
         `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/admin-messages?status=${status}`,
         {
@@ -76,11 +74,13 @@ export default function Admin() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [toast]);
 
   useEffect(() => {
-    fetchMessages(activeTab);
-  }, [activeTab]);
+    if (user && isAdmin) {
+      fetchMessages(activeTab);
+    }
+  }, [activeTab, user, isAdmin, fetchMessages]);
 
   const handleAction = async (action: string, messageId: string) => {
     try {
@@ -105,15 +105,12 @@ export default function Admin() {
         description: "Action effectuée avec succès",
       });
 
-      // Refresh messages
       fetchMessages(activeTab);
       
-      // Clear selection if the message was modified
       if (selectedMessage?.id === messageId) {
         if (action === "delete" || action === "archive") {
           setSelectedMessage(null);
         } else {
-          // Refetch the message
           const updatedMessage = messages.find((m) => m.id === messageId);
           if (updatedMessage) {
             setSelectedMessage({
@@ -135,12 +132,24 @@ export default function Admin() {
 
   const handleSelectMessage = async (message: ContactMessage) => {
     setSelectedMessage(message);
-    
-    // Mark as read if not already
     if (!message.read_at) {
       await handleAction("markRead", message.id);
     }
   };
+
+  // Auth loading state
+  if (authLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-background">
+        <Loader2 className="h-8 w-8 animate-spin text-primary" />
+      </div>
+    );
+  }
+
+  // Redirect if not authenticated or not admin
+  if (!user || !isAdmin) {
+    return <Navigate to="/login" replace />;
+  }
 
   return (
     <div className="min-h-screen bg-background">
@@ -156,10 +165,16 @@ export default function Admin() {
             </Link>
             <h1 className="text-xl font-semibold">Administration - Messages</h1>
           </div>
-          <Button variant="outline" size="sm" onClick={() => fetchMessages(activeTab)}>
-            <RefreshCw className="h-4 w-4 mr-2" />
-            Actualiser
-          </Button>
+          <div className="flex items-center gap-2">
+            <Button variant="outline" size="sm" onClick={() => fetchMessages(activeTab)}>
+              <RefreshCw className="h-4 w-4 mr-2" />
+              Actualiser
+            </Button>
+            <Button variant="ghost" size="sm" onClick={signOut}>
+              <LogOut className="h-4 w-4 mr-2" />
+              Déconnexion
+            </Button>
+          </div>
         </div>
       </header>
 
