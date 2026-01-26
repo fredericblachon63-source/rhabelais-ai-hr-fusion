@@ -48,16 +48,29 @@ export default function Admin() {
   const fetchMessages = useCallback(async (status: string = "active") => {
     setLoading(true);
     try {
+      // Get current user's session JWT
+      const { data: { session } } = await supabase.auth.getSession();
+      
+      if (!session?.access_token) {
+        throw new Error("No active session");
+      }
+
       const response = await fetch(
         `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/admin-messages?status=${status}`,
         {
           headers: {
-            Authorization: `Bearer ${import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY}`,
+            Authorization: `Bearer ${session.access_token}`,
           },
         }
       );
 
       if (!response.ok) {
+        if (response.status === 401) {
+          throw new Error("Session expired");
+        }
+        if (response.status === 403) {
+          throw new Error("Access denied - Admin required");
+        }
         throw new Error("Failed to fetch messages");
       }
 
@@ -68,7 +81,7 @@ export default function Admin() {
       console.error("Error fetching messages:", error);
       toast({
         title: "Erreur",
-        description: "Impossible de charger les messages",
+        description: error instanceof Error ? error.message : "Impossible de charger les messages",
         variant: "destructive",
       });
     } finally {
@@ -84,12 +97,19 @@ export default function Admin() {
 
   const handleAction = async (action: string, messageId: string) => {
     try {
+      // Get current user's session JWT
+      const { data: { session } } = await supabase.auth.getSession();
+      
+      if (!session?.access_token) {
+        throw new Error("No active session");
+      }
+
       const response = await fetch(
         `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/admin-message-action`,
         {
           method: "POST",
           headers: {
-            Authorization: `Bearer ${import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY}`,
+            Authorization: `Bearer ${session.access_token}`,
             "Content-Type": "application/json",
           },
           body: JSON.stringify({ action, messageId }),
@@ -97,6 +117,12 @@ export default function Admin() {
       );
 
       if (!response.ok) {
+        if (response.status === 401) {
+          throw new Error("Session expired");
+        }
+        if (response.status === 403) {
+          throw new Error("Access denied - Admin required");
+        }
         throw new Error("Action failed");
       }
 

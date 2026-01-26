@@ -136,6 +136,16 @@ function validateContactForm(data: unknown): {
   };
 }
 
+// HTML escape function to prevent XSS in emails
+function escapeHtml(unsafe: string): string {
+  return unsafe
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+}
+
 async function sendEmail(apiKey: string, options: {
   from: string;
   to: string[];
@@ -266,35 +276,35 @@ const handler = async (req: Request): Promise<Response> => {
       );
     }
     
-    // Send confirmation email to the user
+    // Send confirmation email to the user (with HTML-escaped user input)
     await sendEmail(apiKey, {
       from: "RH Abelais <onboarding@resend.dev>",
       to: [validatedData.email],
       subject: "Merci pour votre message - RH Abelais",
       html: `
-        <h1>Merci pour votre message, ${validatedData.name} !</h1>
-        <p>Nous avons bien reçu votre demande concernant : <strong>${validatedData.subject}</strong></p>
+        <h1>Merci pour votre message, ${escapeHtml(validatedData.name)} !</h1>
+        <p>Nous avons bien reçu votre demande concernant : <strong>${escapeHtml(validatedData.subject)}</strong></p>
         <p>Nous vous répondrons dans les plus brefs délais.</p>
         <br>
         <p>Cordialement,<br>L'équipe RH Abelais</p>
       `,
     });
 
-    // Send notification email to the site owner
+    // Send notification email to the site owner (with HTML-escaped user input)
     await sendEmail(apiKey, {
       from: "Site Contact <onboarding@resend.dev>",
       to: ["contact@rhabelais.fr"],
       replyTo: validatedData.email,
-      subject: `[Contact Form] ${validatedData.subject}`,
+      subject: `[Contact Form] ${escapeHtml(validatedData.subject)}`,
       html: `
         <h2>Nouveau message de contact</h2>
-        <p><strong>Nom:</strong> ${validatedData.name}</p>
-        <p><strong>Email:</strong> ${validatedData.email}</p>
-        <p><strong>Entreprise:</strong> ${validatedData.company || "Non spécifiée"}</p>
-        <p><strong>Sujet:</strong> ${validatedData.subject}</p>
+        <p><strong>Nom:</strong> ${escapeHtml(validatedData.name)}</p>
+        <p><strong>Email:</strong> ${escapeHtml(validatedData.email)}</p>
+        <p><strong>Entreprise:</strong> ${escapeHtml(validatedData.company || "Non spécifiée")}</p>
+        <p><strong>Sujet:</strong> ${escapeHtml(validatedData.subject)}</p>
         <hr>
         <h3>Message:</h3>
-        <p>${validatedData.message.replace(/\n/g, "<br>")}</p>
+        <p>${escapeHtml(validatedData.message).replace(/\n/g, "<br>")}</p>
       `,
     });
 
