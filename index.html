@@ -1,29 +1,364 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="fr">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Rhabelais - Consultant RH & Expert IA | rhabelais.fr</title>
-    <meta name="description" content="Rhabelais, consultant RH spécialisé en IA, No-Code et transformation digitale. Formations IA pour RH, automatisations avec Notion, Airtable, Make. Relations sociales, GEPP, RSE, ADP." />
-    <meta name="keywords" content="consultant RH, IA ressources humaines, No-Code RH, formations IA, automatisation RH, GEPP, RSE, relations sociales" />
-    <meta name="author" content="Rhabelais" />
-    <link rel="canonical" href="https://rhabelais.fr" />
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RHabelais – Innovation RH</title>
+  <!-- Import a friendly sans‑serif font -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
+  <style>
+    /* Simple reset */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
-    <meta property="og:title" content="Rhabelais - L'innovation au service des RH" />
-    <meta property="og:description" content="Consultant RH expert en IA et No-Code. Formations, accompagnement et automatisations pour transformer vos pratiques RH." />
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://rhabelais.fr" />
-    <meta property="og:locale" content="fr_FR" />
+    body {
+      font-family: 'Poppins', sans-serif;
+      line-height: 1.6;
+      color: #072C50; /* dark blue for headings */
+    }
 
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Rhabelais - Consultant RH & Expert IA" />
-    <meta name="twitter:description" content="L'innovation au service des Ressources Humaines. IA, No-Code, formations et automatisations." />
+    header {
+      padding: 20px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #ffffff;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
 
-    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
-  </head>
+    .logo {
+      font-weight: 700;
+      font-size: 1.4rem;
+      color: #0D7363; /* teal green */
+    }
 
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
+    nav a {
+      margin-left: 20px;
+      text-decoration: none;
+      color: #072C50;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+    nav a:hover {
+      color: #0D7363;
+    }
+
+    .btn-primary {
+      background: #0D7363;
+      color: #fff;
+      padding: 10px 20px;
+      border-radius: 25px;
+      text-decoration: none;
+      font-weight: 500;
+      transition: background 0.2s;
+    }
+    .btn-primary:hover {
+      background: #09594C;
+    }
+
+    /* Hero section */
+    .hero {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      padding: 60px 40px;
+      background: linear-gradient(180deg, #F7F9FA 0%, #EEF7F5 100%);
+    }
+    .hero-text {
+      max-width: 600px;
+    }
+    .hero h1 {
+      font-size: 2.5rem;
+      margin-bottom: 20px;
+    }
+    .hero p {
+      margin-bottom: 30px;
+      color: #3F5E7C;
+    }
+    .hero-actions a {
+      margin-right: 15px;
+    }
+    .stats {
+      display: flex;
+      gap: 40px;
+      margin-top: 40px;
+    }
+    .stat {
+      text-align: left;
+    }
+    .stat span {
+      display: block;
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: #0D7363;
+    }
+    .stat small {
+      color: #3F5E7C;
+    }
+
+    /* Card grid section */
+    .section {
+      padding: 60px 40px;
+    }
+    .section h2 {
+      text-align: center;
+      font-size: 2rem;
+      margin-bottom: 20px;
+      color: #072C50;
+    }
+    .section p.intro {
+      text-align: center;
+      max-width: 700px;
+      margin: 0 auto 40px;
+      color: #3F5E7C;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+    }
+    .card {
+      background: #ffffff;
+      border: 1px solid #E5ECEF;
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+    .card h3 {
+      font-size: 1.2rem;
+      margin-bottom: 10px;
+      color: #0D7363;
+    }
+    .card p {
+      color: #3F5E7C;
+      font-size: 0.9rem;
+    }
+    .card a {
+      display: inline-block;
+      margin-top: 10px;
+      font-size: 0.9rem;
+      color: #0D7363;
+      text-decoration: none;
+    }
+    .card a:hover {
+      text-decoration: underline;
+    }
+
+    /* Values section */
+    .values-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+      margin-top: 30px;
+    }
+    .value-item {
+      background: #F6FDFB;
+      border-radius: 10px;
+      padding: 20px;
+      border: 1px solid #D5EFEA;
+    }
+    .value-item h4 {
+      font-size: 1.1rem;
+      margin-bottom: 8px;
+      color: #0D7363;
+    }
+    .value-item p {
+      font-size: 0.9rem;
+      color: #3F5E7C;
+    }
+
+    /* CTA Section */
+    .cta {
+      padding: 60px 40px;
+      background: linear-gradient(135deg, #054C89, #0D7363);
+      color: #fff;
+      text-align: center;
+    }
+    .cta h2 {
+      font-size: 2rem;
+      margin-bottom: 20px;
+    }
+    .cta p {
+      margin-bottom: 30px;
+      color: #E6F2F0;
+    }
+    .cta a {
+      margin: 0 10px;
+      padding: 12px 24px;
+      border-radius: 25px;
+      color: #054C89;
+      background: #fff;
+      text-decoration: none;
+      font-weight: 600;
+    }
+    .cta a:hover {
+      background: #F0FAF8;
+    }
+
+    /* Footer */
+    footer {
+      background: #072C50;
+      color: #fff;
+      padding: 40px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+    }
+    footer h4 {
+      margin-bottom: 10px;
+      font-size: 1rem;
+      color: #A0C7E8;
+    }
+    footer a {
+      color: #A0C7E8;
+      text-decoration: none;
+      font-size: 0.9rem;
+    }
+    footer a:hover {
+      text-decoration: underline;
+    }
+    footer .logo-text {
+      font-size: 0.9rem;
+      margin-top: 5px;
+      color: #E6F2F0;
+    }
+    footer .copyright {
+      margin-top: 20px;
+      font-size: 0.8rem;
+      text-align: center;
+      color: #A0C7E8;
+    }
+    @media (max-width: 600px) {
+      .hero {
+        padding: 40px 20px;
+      }
+      .section {
+        padding: 40px 20px;
+      }
+      .cta {
+        padding: 40px 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">RHabelais</div>
+    <nav>
+      <a href="#accueil">Accueil</a>
+      <a href="#expertises">Expertises</a>
+      <a href="#innovation">IA &amp; No‑Code</a>
+      <a href="#valeurs">Valeurs</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <a href="#contact" class="btn-primary">Me contacter</a>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero" id="accueil">
+    <div class="hero-text">
+      <h1>L'innovation au service des Ressources Humaines</h1>
+      <p>RHabelais accompagne votre transformation RH en alliant expertise métier, Intelligence Artificielle et outils No‑Code. Simplifiez vos processus, valorisez l'humain.</p>
+      <div class="hero-actions">
+        <a href="#contact" class="btn-primary">Discutons de votre projet</a>
+        <a href="#expertises" class="btn-primary" style="background:#EAF7F5; color:#0D7363;">Découvrir mes expertises</a>
+      </div>
+      <div class="stats">
+        <div class="stat"><span>10+</span><small>Années d'expérience</small></div>
+        <div class="stat"><span>IA &amp; No‑Code</span><small>Expertise digitale</small></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Expertises Section -->
+  <section class="section" id="expertises">
+    <h2>Un ancrage RH solide et éprouvé</h2>
+    <p class="intro">Après plus de 10 ans dans les Ressources Humaines, j'accompagne les entreprises dans leurs enjeux stratégiques et opérationnels.</p>
+    <div class="grid">
+      <div class="card">
+        <h3>Administration du Personnel</h3>
+        <p>Gestion des contrats, dossiers individuels et conformité légale pour une gestion RH irréprochable.</p>
+      </div>
+      <div class="card">
+        <h3>Relations Sociales</h3>
+        <p>Construction d’un climat social sain par le dialogue, la prévention des conflits et le bien‑être au travail.</p>
+      </div>
+      <div class="card">
+        <h3>GEPP</h3>
+        <p>Gestion des Emplois et Parcours Professionnels. Développement des talents et évolution professionnelle.</p>
+      </div>
+      <div class="card">
+        <h3>RSE</h3>
+        <p>Responsabilité Sociale et Environnementale. Diversité, inclusion et engagement durable.</p>
+      </div>
+      <div class="card">
+        <h3>IA &amp; No‑Code</h3>
+        <p>Automatisation des tâches RH grâce à l'Intelligence Artificielle et aux outils No‑Code.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Values section -->
+  <section class="section" id="valeurs">
+    <h2>Une approche pragmatique et humaine</h2>
+    <p class="intro">RHabelais incarne une nouvelle manière de concevoir et de pratiquer les Ressources Humaines, adaptée aux défis contemporains. L'innovation n'est pas une option, c'est un levier pour valoriser l'humain.</p>
+    <div class="values-list">
+      <div class="value-item">
+        <h4>Solutions concrètes</h4>
+        <p>Opérationnelles immédiatement et adaptées à votre réalité terrain.</p>
+      </div>
+      <div class="value-item">
+        <h4>Standards RH</h4>
+        <p>Conformes aux meilleures pratiques et aux exigences réglementaires.</p>
+      </div>
+      <div class="value-item">
+        <h4>Accessibles à tous</h4>
+        <p>Conçues pour être comprises et utilisées par tous, sans barrières techniques.</p>
+      </div>
+      <div class="value-item">
+        <h4>Inclusion &amp; Diversité</h4>
+        <p>Sensibilité au handicap et à la diversité guide chaque projet.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA section -->
+  <section class="cta">
+    <h2>Quelle transformation RH aimeriez‑vous amorcer ?</h2>
+    <p>Ensemble, construisons les Ressources Humaines de demain, ancrées dans leurs fondamentaux et ouvertes sur l'avenir.</p>
+    <a href="#contact">Prenons contact</a>
+    <a href="#expertises">Découvrir les formations IA</a>
+  </section>
+
+  <!-- Footer -->
+  <footer id="contact">
+    <div>
+      <h4>RHabelais</h4>
+      <p class="logo-text">L'innovation au service des Ressources Humaines. Consultant RH spécialisé en IA, No‑Code et transformation digitale.</p>
+    </div>
+    <div>
+      <h4>Navigation</h4>
+      <a href="#accueil">Accueil</a><br>
+      <a href="#expertises">Expertises</a><br>
+      <a href="#innovation">IA &amp; No‑Code</a><br>
+      <a href="#valeurs">Valeurs</a><br>
+      <a href="#contact">Contact</a>
+    </div>
+    <div>
+      <h4>Contact</h4>
+      <a href="mailto:contact@rhabelais.fr">contact@rhabelais.fr</a><br>
+      <a href="https://www.linkedin.com" target="_blank">LinkedIn</a>
+    </div>
+    <div class="copyright" style="grid-column: 1 / -1;">
+      © 2026 RHabelais – rhabelais.fr. Tous droits réservés.
+    </div>
+  </footer>
+</body>
 </html>
