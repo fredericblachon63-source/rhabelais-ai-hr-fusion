@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
-import { supabase } from "@/integrations/supabase/client";
+
 import { useTurnstile } from "@/hooks/useTurnstile";
 import { z } from "zod";
 
@@ -62,18 +62,31 @@ const Contact = () => {
       // Client-side validation first
       const validatedData = contactSchema.parse(formData);
       
-      // Send to backend Edge Function with CAPTCHA token
-      const { data, error } = await supabase.functions.invoke("contact-form", {
-        body: { ...validatedData, turnstileToken },
-      });
-      
-      if (error) {
-        throw new Error(error.message || "Erreur lors de l'envoi du message");
-      }
-      
-      if (!data?.success) {
-        throw new Error(data?.error || "Erreur lors de l'envoi du message");
-      }
+      // Send to Cloudflare Worker (with CAPTCHA token)
+const response = await fetch(
+  "https://rhabelais-contact.frederic-blachon63.workers.dev/",
+  {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ ...validatedData, turnstileToken }),
+  }
+);
+
+let data: any = null;
+try {
+  data = await response.json();
+} catch {
+  // ignore JSON parse errors
+}
+
+if (!response.ok) {
+  throw new Error(data?.error || "Erreur lors de l'envoi du message");
+}
+
+if (!data?.success) {
+  throw new Error(data?.error || "Erreur lors de l'envoi du message");
+}
+
       
       setIsSubmitted(true);
       resetCaptcha();
