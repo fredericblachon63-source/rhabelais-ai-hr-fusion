@@ -1,109 +1,73 @@
-# Rhabelais - Conseil RH & IA
+# Welcome to your Lovable project
 
-Site vitrine de Rhabelais, cabinet de conseil RH spécialisé en transformation digitale et intelligence artificielle.
+## Project info
 
-## 🛠️ Stack Technique
+**URL**: https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID
 
-- **Framework**: React 18 + TypeScript
-- **Build Tool**: Vite
-- **Styling**: Tailwind CSS
-- **UI Components**: shadcn/ui
-- **Routing**: React Router DOM
-- **Backend**: Supabase (Lovable Cloud)
+## How can I edit this code?
 
-## 📁 Structure du projet
+There are several ways of editing your application.
 
-```
-├── public/                 # Assets statiques
-│   ├── _redirects          # Config SPA pour Netlify/Cloudflare
-│   ├── 404.html            # Fallback SPA pour GitHub Pages
-│   ├── favicon.ico
-│   └── robots.txt
-├── src/
-│   ├── assets/             # Images et icônes
-│   ├── components/         # Composants React
-│   │   ├── home/           # Sections page d'accueil
-│   │   ├── layout/         # Navbar, Footer, Layout
-│   │   └── ui/             # Composants shadcn/ui
-│   ├── hooks/              # Custom hooks
-│   ├── pages/              # Pages de l'application
-│   └── integrations/       # Intégration Supabase
-├── supabase/
-│   └── functions/          # Edge Functions
-└── vite.config.ts          # Configuration Vite
-```
+**Use Lovable**
 
-## 🚀 Installation
+Simply visit the [Lovable Project](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and start prompting.
 
-```bash
-# Cloner le repo
-git clone https://github.com/VOTRE_USERNAME/rhabelais.git
-cd rhabelais
+Changes made via Lovable will be committed automatically to this repo.
 
-# Installer les dépendances
-npm install
+**Use your preferred IDE**
 
-# Lancer en développement
+If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+
+The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+
+Follow these steps:
+
+```sh
+# Step 1: Clone the repository using the project's Git URL.
+git clone <YOUR_GIT_URL>
+
+# Step 2: Navigate to the project directory.
+cd <YOUR_PROJECT_NAME>
+
+# Step 3: Install the necessary dependencies.
+npm i
+
+# Step 4: Start the development server with auto-reloading and an instant preview.
 npm run dev
 ```
 
-## 📦 Build
+**Edit a file directly in GitHub**
 
-```bash
-# Générer le build de production
-npm run build
+- Navigate to the desired file(s).
+- Click the "Edit" button (pencil icon) at the top right of the file view.
+- Make your changes and commit the changes.
 
-# Preview du build
-npm run preview
-```
+**Use GitHub Codespaces**
 
-Le build sera généré dans le dossier `dist/`.
+- Navigate to the main page of your repository.
+- Click on the "Code" button (green button) near the top right.
+- Select the "Codespaces" tab.
+- Click on "New codespace" to launch a new Codespace environment.
+- Edit files directly within the Codespace and commit and push your changes once you're done.
 
-## 🌐 Déploiement
+## What technologies are used for this project?
 
-### Cloudflare Pages (Recommandé)
+This project is built with:
 
-1. Connectez votre repo GitHub à Cloudflare Pages
-2. Configuration:
-   - **Build command**: `npm run build`
-   - **Build output directory**: `dist`
-   - **Node version**: 18+
-3. Le fichier `public/_redirects` gère automatiquement les routes SPA
+- Vite
+- TypeScript
+- React
+- shadcn-ui
+- Tailwind CSS
 
-### Netlify
+## How can I deploy this project?
 
-1. Connectez votre repo GitHub à Netlify
-2. Configuration identique à Cloudflare Pages
-3. Le fichier `_redirects` est automatiquement pris en compte
+Simply open [Lovable](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and click on Share -> Publish.
 
-### GitHub Pages
+## Can I connect a custom domain to my Lovable project?
 
-1. Ajoutez le workflow GitHub Actions (`.github/workflows/deploy.yml`)
-2. Activez GitHub Pages dans les settings du repo
-3. Le fichier `404.html` gère le fallback pour les routes SPA
+Yes, you can!
 
-## 🔗 Routes disponibles
+To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
 
-| Route | Description |
-|-------|-------------|
-| `/` | Page d'accueil |
-| `/a-propos` | À propos de Rhabelais |
-| `/expertises` | Services et expertises |
-| `/ia-nocode` | Solutions IA & No-Code |
-| `/automatisations` | Services d'automatisation |
-| `/contact` | Formulaire de contact |
-| `/login` | Connexion admin |
-| `/admin` | Dashboard admin (protégé) |
-
-## ⚙️ Variables d'environnement
-
-Pour le fonctionnement complet (formulaire de contact, etc.), configurez:
-
-```env
-VITE_SUPABASE_URL=your_supabase_url
-VITE_SUPABASE_PUBLISHABLE_KEY=your_anon_key
-```
-
-## 📝 Licence
-
-© 2025 Rhabelais - Tous droits réservés
+Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
