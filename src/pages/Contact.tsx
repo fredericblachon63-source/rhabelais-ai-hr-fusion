@@ -83,9 +83,6 @@ if (!response.ok) {
   throw new Error(data?.error || "Erreur lors de l'envoi du message");
 }
 
-if (!data?.success) {
-  throw new Error(data?.error || "Erreur lors de l'envoi du message");
-}
 
       
       setIsSubmitted(true);
